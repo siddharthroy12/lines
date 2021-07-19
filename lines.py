@@ -142,4 +142,4 @@ def count_lines_recursive(dir: str):
 if __name__ == "__main__":
 	parse_cmd_args()
 
-	print(count_lines_recursive(path_to_search))
+	print("Lines: ", count_lines_recursive(path_to_search))
