@@ -2,7 +2,6 @@
 
 from os import listdir
 from os.path import isfile, join
-from gitignore_parser import parse_gitignore
 import argparse
 
 # Options
@@ -23,9 +22,10 @@ def parse_cmd_args():
 		description='Count the lines of code in a project folder'
 	)
 
-	parser.add_argument('Path',
+	parser.add_argument('-p',
         metavar='path',
         type=str,
+		default='./',
         help='the path to the project folder')
 
 	parser.add_argument('-e',
@@ -50,7 +50,7 @@ def parse_cmd_args():
 
 	args = parser.parse_args()
 
-	path_to_search = args.Path
+	path_to_search = args.p
 
 	if args.e:
 		ignore_empty_lines = False
@@ -60,27 +60,6 @@ def parse_cmd_args():
 
 	for filesname in args.i:
 		filesnames_to_ingore.append(filesname)
-
-# This store multiple .gitignore file parser
-matchers = []
-
-# Add new .gitignore file parser
-def add_gitignore_file(filepath: str):
-	matchers.append(parse_gitignore(filepath))
-
-# Check if given file or folder should be ignored
-def is_ignored(filepath: str) -> bool:
-	result = False
-
-	for match in matchers:
-		if match(filepath):
-			result = True
-	
-	for file in filesnames_to_ingore:
-		if filepath.endswith(file):
-			result = True
-
-	return result
 
 def count_lines_in_file(file: str) -> int:
 	lines = 0
@@ -105,19 +84,12 @@ def count_lines_in_dir(dir: str) -> int:
 
 	for file_or_folder in listdir(dir):
 		if isfile(join(dir, file_or_folder)):
-			if file_or_folder[0] != '.' or file_or_folder == '.gitignore': # Ignore dot files except .gitignore
-				files.append(join(dir, file_or_folder))
-	
-	# Check and add .gitignore file
-	for file in files:
-		if str(file).endswith('.gitignore'):
-			add_gitignore_file(file)
+			files.append(join(dir, file_or_folder))
 
 	lines = 0
 	
 	for file in files:
-		if not is_ignored(file):
-			lines += count_lines_in_file(file)
+		lines += count_lines_in_file(file)
 
 	return lines
 
@@ -133,8 +105,7 @@ def count_lines_recursive(dir: str):
 				folders.append(file_or_folder)
 
 	for folder in folders:
-		if not is_ignored(join(dir, folder)):
-			total_lines += count_lines_recursive(join(dir, folder))
+		total_lines += count_lines_recursive(join(dir, folder))
 
 	return total_lines
 
