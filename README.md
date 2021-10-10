@@ -1,6 +1,6 @@
 # Lines
 
-Command line tool to count the lines of code in a project folder
+Command line tool to count the lines of code in a source folder
 
 ## Installation
 
@@ -20,15 +20,13 @@ $ python3 -m pip install -r requirements.txt
 
 ```
 python3 lines.py -h
-usage: lines path [options]
+usage: lines [options]
 
 Count the lines of code in a project folder
 
-positional arguments:
-  path                  the path to the project folder
-
 optional arguments:
   -h, --help            show this help message and exit
+  -p path               the path to the project folder
   -e                    Count empty lines
   -i [Files [Files ...]]
                         Files to ignore
@@ -54,10 +52,6 @@ To show the files that are counted
 ```
 python3 lines.py ./ -v
 ```
-
-## Note
-
-Files and folders defined in .gitignore file will be ingored (whether -i is used or not)
 
 ## License
 
