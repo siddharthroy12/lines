@@ -18,7 +18,7 @@ def parse_cmd_args():
 
 	parser = argparse.ArgumentParser(
 		prog='lines',
-		usage='%(prog)s path [options]',
+		usage='%(prog)s [options]',
 		description='Count the lines of code in a project folder'
 	)
 
