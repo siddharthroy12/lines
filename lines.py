@@ -23,14 +23,14 @@ def parse_cmd_args():
 	)
 
 	parser.add_argument('-p',
-        metavar='path',
-        type=str,
+    	metavar='path',
+    	type=str,
 		default='./',
-        help='the path to the project folder')
+    	help='the path to the project folder')
 
 	parser.add_argument('-e',
 		action='store_true',
-        help='Count empty lines',
+    	help='Count empty lines',
 		required=False
 	)
 
@@ -38,15 +38,15 @@ def parse_cmd_args():
 		metavar='Files',
 		nargs='*',
 		action='store',
-        help='Files to ignore',
+    	help='Files to ignore',
 		default='',
 		required=False
 	)
 
 	parser.add_argument('-v',
-        '--verbose',
-        action='store_true',
-        help='Show files that are counted')
+    	'--verbose',
+    	action='store_true',
+    	help='Show files that are counted')
 
 	args = parser.parse_args()
 
@@ -57,6 +57,7 @@ def parse_cmd_args():
 
 	if args.verbose:
 		verbose = True
+        
 
 	for filesname in args.i:
 		filesnames_to_ingore.append(filesname)
@@ -83,7 +84,7 @@ def count_lines_in_dir(dir: str) -> int:
 	files = []
 
 	for file_or_folder in listdir(dir):
-		if isfile(join(dir, file_or_folder)):
+		if isfile(join(dir, file_or_folder)) and not (file_or_folder in filesnames_to_ingore):
 			files.append(join(dir, file_or_folder))
 
 	lines = 0
