@@ -8,12 +8,12 @@ import argparse
 path_to_search = './'
 ignore_empty_lines = True
 verbose = False
-filesnames_to_ingore = []
+names_to_ignore = []
 
 def parse_cmd_args():
 	global path_to_search
 	global ignore_empty_lines
-	global filesnames_to_ingore
+	global names_to_ignore
 	global verbose
 
 	parser = argparse.ArgumentParser(
@@ -58,9 +58,8 @@ def parse_cmd_args():
 	if args.verbose:
 		verbose = True
         
-
 	for filesname in args.i:
-		filesnames_to_ingore.append(filesname)
+		names_to_ignore.append(filesname)
 
 def count_lines_in_file(file: str) -> int:
 	lines = 0
@@ -84,7 +83,7 @@ def count_lines_in_dir(dir: str) -> int:
 	files = []
 
 	for file_or_folder in listdir(dir):
-		if isfile(join(dir, file_or_folder)) and not (file_or_folder in filesnames_to_ingore):
+		if isfile(join(dir, file_or_folder)) and not (file_or_folder in names_to_ignore):
 			files.append(join(dir, file_or_folder))
 
 	lines = 0
@@ -102,7 +101,7 @@ def count_lines_recursive(dir: str):
 
 	for file_or_folder in listdir(dir):
 		if not isfile(join(dir, file_or_folder)):
-			if file_or_folder[0] != '.': # Ignore hidden folders
+			if file_or_folder[0] != '.' and not (file_or_folder in names_to_ignore): # Ignore hidden folders
 				folders.append(file_or_folder)
 
 	for folder in folders:

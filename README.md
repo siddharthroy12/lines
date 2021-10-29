@@ -4,7 +4,7 @@ Command line tool to count the lines of code in a source folder
 
 ## Installation
 
-```
+```sh
 # clone the repo
 $ git clone https://github.com/siddharthroy12/lines.git
 
@@ -18,7 +18,7 @@ $ python3 -m pip install -r requirements.txt
 
 ## Usage
 
-```
+```sh
 python3 lines.py -h
 usage: lines [options]
 
@@ -34,22 +34,26 @@ optional arguments:
 ```
 
 To count lines of code in this project
-```
+
+```sh
 python3 lines.py ./
 ```
 
 To count empty lines too
-```
+
+```sh
 python3 lines.py ./ -e
 ```
 
 To ignore additional files
-```
+
+```sh
 python3 lines.py ./ -i README.md requirements.txt
 ```
 
 To show the files that are counted
-```
+
+```sh
 python3 lines.py ./ -v
 ```
 
