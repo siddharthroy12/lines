@@ -7,10 +7,11 @@ import argparse
 # Options
 path_to_search = './'
 ignore_empty_lines = True
-verbose = False
+verbose = False # Show the list of files being counted
 names_to_ignore = []
 
 def parse_cmd_args():
+	""" Parse command line args """
 	global path_to_search
 	global ignore_empty_lines
 	global names_to_ignore
@@ -62,16 +63,17 @@ def parse_cmd_args():
 		names_to_ignore.append(filesname)
 
 def count_lines_in_file(file: str) -> int:
+	""" Count the lines of a text file """
 	lines = 0
 
-	try:
+	try: # Using try catch block to determine if the file is text file
 		with open(file) as f:
 			for line in f:
-				# Skip the empty lines
+				# Skip the empty lines if set to skip (default)
 				if line.strip() == '' and ignore_empty_lines:
 					continue
 				lines += 1
-	except UnicodeDecodeError: # If file is not text file
+	except UnicodeDecodeError: # If file is not text file then don't count
 		return 0
 	
 	if verbose:
@@ -80,6 +82,7 @@ def count_lines_in_file(file: str) -> int:
 	return lines
 
 def count_lines_in_dir(dir: str) -> int:
+	""" Count the lines of all text files in a directory """
 	files = []
 
 	for file_or_folder in listdir(dir):
@@ -93,15 +96,15 @@ def count_lines_in_dir(dir: str) -> int:
 
 	return lines
 
-# Count lines in the files in dir (Recursive)
 def count_lines_recursive(dir: str):
+	""" Count lines of all files in dir and sub-dirs (Recursive) """
 	total_lines = count_lines_in_dir(dir)
 	
 	folders = []
 
 	for file_or_folder in listdir(dir):
 		if not isfile(join(dir, file_or_folder)):
-			if file_or_folder[0] != '.' and not (file_or_folder in names_to_ignore): # Ignore hidden folders
+			if file_or_folder[0] != '.' and not (file_or_folder in names_to_ignore): # Ignore hidden folders and names set to ignore
 				folders.append(file_or_folder)
 
 	for folder in folders:
